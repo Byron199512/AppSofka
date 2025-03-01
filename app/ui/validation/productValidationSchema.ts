@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 import ProductLogic from '../../core/domain/productLogic/ProductLogic';
 import ProductUseCase from '../../core/useCases/product/ProductUseCase';
-
+import { parseDate } from '../utils/formatDate';
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 const ProductValidationSchema = Yup.object().shape({
     id: Yup.string()
         .required('required')
@@ -32,7 +34,10 @@ const ProductValidationSchema = Yup.object().shape({
 
     date_release: Yup.date()
         .required('required')
-        .min(new Date(), 'min_date'),
+        .min(today, 'min_date')
+        .test('is-valid-date', 'invalid_date', value => {
+            return !(value == undefined); 
+        }),
 
     date_revision: Yup.date()
         .required('required')
@@ -42,6 +47,8 @@ const ProductValidationSchema = Yup.object().shape({
             const oneYearLater = new Date(date_release);
             oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
             return value.getTime() === oneYearLater.getTime();
+        }).test('is-valid-date', 'invalid_date', value => {
+            return !(value == undefined); 
         }),
 });
 

@@ -37,8 +37,8 @@ export const DateInput = ({ defaultValue, errors, field, setFieldValue }: Props)
     };
 
     const handleDateChange = (value: string) => {
-        const newDate = parseDate(value);
-        setFieldValue(field, newDate);
+    
+        setFieldValue(field, new Date(value));
         setFormattedDate(value);
     };
 

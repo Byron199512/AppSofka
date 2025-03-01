@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
-
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 const ProductUpdateValidationSchema = Yup.object().shape({
- 
+
     name: Yup.string()
         .required('required')
         .min(5, 'min')
@@ -17,7 +18,10 @@ const ProductUpdateValidationSchema = Yup.object().shape({
 
     date_release: Yup.date()
         .required('required')
-        .min(new Date(), 'min_date'),
+        .min(today, 'min_date')
+        .test('is-valid-date', 'invalid_date', value => {
+            return !(value == undefined);
+        }),
 
     date_revision: Yup.date()
         .required('required')
@@ -27,6 +31,8 @@ const ProductUpdateValidationSchema = Yup.object().shape({
             const oneYearLater = new Date(date_release);
             oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
             return value.getTime() === oneYearLater.getTime();
+        }).test('is-valid-date', 'invalid_date', value => {
+            return !(value == undefined);
         }),
 });
 

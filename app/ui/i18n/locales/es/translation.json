@@ -27,5 +27,6 @@
     "confirm":"Confirmar",
     "cancel":"Cancelar",
     "success":"Exito",
-    "ok":"Continuar"
+    "ok":"Continuar",
+    "invalid_date":"Fecha no válida"
 }
